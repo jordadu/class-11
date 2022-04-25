@@ -31,9 +31,10 @@ vignette("sf5")
 ## geometry
 
 #=== 1.2. load data ===#
-bog = st_read("input/Median Housing Values Bogota.rds")
+bog = st_read("input/Bogota MHV.shp")
 bog$mhv_q = quantcut(bog$mhv/1000000)
-
+class(bog)
+bog
 #=== 1.3.1. plot basic map ===#
 ggplot(data=bog) + 
 geom_sf(fill="orange" , col="black" , size=0.3) 
@@ -113,12 +114,16 @@ street = street$osm_lines %>% select(osm_id,name)
 street = street %>%
          subset(str_detect(name,"Avenida")==T | str_detect(name,"TransMilenio")==T)
 
+leaflet() %>% 
+addTiles() %>% 
+addPolylines(data=street , col="green")
+
 #==================#
 # [3.] Google Maps #
 #==================#
 
 # You can get the Google key here: https://developers.google.com/maps/documentation/geocoding/get-api-key?hl=es
-register_google(key = "Write the appy key here" , write = T) 
+register_google(key = "AIzaSyDw0kT-nTMCRfh6XojqEVURk630u7PwcOs" , write = T) 
 
 #=== 3.1. Geocode  ===#
 google = geocode(location="Casa de Nariño, Bogotá D.C.",
